@@ -36,10 +36,10 @@ public class EmailUtils {
             // Email configuration
             String smtpHost = configManager.getProperty("email.smtp.host", "smtp.gmail.com");
             String smtpPort = configManager.getProperty("email.smtp.port", "587");
-            String username = configManager.getEncryptedProperty("email.username", "jeyaramkm2p@gmail.com");
-            String password = configManager.getEncryptedProperty("email.password", "kyarzkmtjqthshtq");
+            String username = configManager.getEncryptedProperty("email.username", "mailId");
+            String password = configManager.getEncryptedProperty("email.password", "Password");
             String fromEmail = configManager.getProperty("email.from", username);
-            String toEmails = configManager.getProperty("email.to", "jeyaramautomation@gmail.com");
+            String toEmails = configManager.getProperty("email.to", "to@gmail.com");
             String ccEmails = configManager.getProperty("email.cc", "");
             
             if (username.isEmpty() || password.isEmpty() || toEmails.isEmpty()) {
