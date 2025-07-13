@@ -1,0 +1,9 @@
+username,password,firstName,lastName,email,role,expected_result
+testuser1,password123,John,Doe,testuser1@example.com,user,success
+testuser2,password456,Jane,Smith,testuser2@example.com,admin,success
+testuser3,password789,Bob,Johnson,testuser3@example.com,user,success
+invaliduser,wrongpassword,Invalid,User,invalid@example.com,user,failure
+,"",Empty,User,empty@example.com,user,failure
+testuser1,"",John,Doe,testuser1@example.com,user,failure
+special#user,special@123,Special,User,special@example.com,user,success
+long_username_12345678901234567890,password123,Long,Username,long@example.com,user,success
