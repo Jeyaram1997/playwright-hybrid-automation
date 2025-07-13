@@ -53,16 +53,26 @@ public class WaitUtils {
     }
     
     /**
-     * Simple sleep with exception handling
+     * Simple sleep with exception handling and best practices
+     * NOTE: Use this sparingly - prefer explicit waits when possible
      * 
      * @param milliseconds Milliseconds to sleep
      */
     public void sleep(long milliseconds) {
+        if (milliseconds <= 0) {
+            logger.warn("Sleep called with non-positive duration: {}ms. Ignoring.", milliseconds);
+            return;
+        }
+        
+        if (milliseconds > 30000) { // 30 seconds
+            logger.warn("Long sleep duration detected: {}ms. Consider using explicit waits instead.", milliseconds);
+        }
+        
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            logger.warn("Sleep interrupted", e);
+            logger.warn("Sleep interrupted after {}ms", milliseconds, e);
         }
     }
     
