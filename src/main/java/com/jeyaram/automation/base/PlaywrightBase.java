@@ -22,7 +22,7 @@ import java.util.Map;
  * Supports UI, API, Mobile, and Performance testing capabilities
  * 
  * @author Jeyaram K
- * @version 1.0.0
+ * @version 1.0.1
  * @since 2025-01-01
  */
 public class PlaywrightBase {
@@ -582,7 +582,7 @@ public class PlaywrightBase {
     }
     
     /**
-     * Cleanup resources
+     * Enhanced cleanup method for proper resource management
      */
     public void cleanup() {
         try {
@@ -641,9 +641,11 @@ public class PlaywrightBase {
      */
     public void waitForPageLoad() {
         try {
-            page.waitForLoadState(LoadState.NETWORKIDLE);
-            logger.info("Page loaded successfully");
-            AllureManager.addStep("Page loaded");
+            if (page != null) {
+                page.waitForLoadState(LoadState.NETWORKIDLE);
+                logger.info("Page loaded successfully");
+                AllureManager.addStep("Page loaded");
+            }
         } catch (Exception e) {
             logger.error("Page load failed", e);
             takeScreenshot("Page load failed");

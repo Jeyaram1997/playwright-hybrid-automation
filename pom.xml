@@ -256,10 +256,10 @@
             <version>2.16.1</version>
         </dependency>
 
-        <!-- PDF Generation -->
+        <!-- PDF Generation - Updated dependency to fix relocation warning -->
         <dependency>
             <groupId>com.itextpdf</groupId>
-            <artifactId>itext7-core</artifactId>
+            <artifactId>itext-core</artifactId>
             <version>8.0.3</version>
             <type>pom</type>
         </dependency>

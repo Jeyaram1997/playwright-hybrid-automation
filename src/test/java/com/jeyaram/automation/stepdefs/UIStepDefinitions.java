@@ -25,14 +25,27 @@ public class UIStepDefinitions {
     private PlaywrightBase playwrightBase;
     private LoginPage loginPage;
     
-    // Test credentials
-    private static final String VALID_USERNAME = "jeyaramk";
-    private static final String VALID_PASSWORD = "Test@1234";
+    // Security Improvement: Remove hard-coded credentials and use configuration
+    // Credentials should be loaded from environment variables or config files
+    private final String validUsername;
+    private final String validPassword;
     
     public UIStepDefinitions() {
         this.screenshotUtils = new ScreenshotUtils();
         this.playwrightBase = new PlaywrightBase();
         this.loginPage = new LoginPage();
+        
+        // Load credentials from environment or config - more secure approach
+        this.validUsername = System.getenv("TEST_USERNAME") != null ? 
+            System.getenv("TEST_USERNAME") : 
+            System.getProperty("test.username", "defaultUser");
+        this.validPassword = System.getenv("TEST_PASSWORD") != null ? 
+            System.getenv("TEST_PASSWORD") : 
+            System.getProperty("test.password", "defaultPass");
+            
+        if ("defaultUser".equals(validUsername) || "defaultPass".equals(validPassword)) {
+            logger.warn("Using default test credentials. For security, set TEST_USERNAME and TEST_PASSWORD environment variables.");
+        }
     }
     
     // Background Step
@@ -56,8 +69,8 @@ public class UIStepDefinitions {
     public void i_enter_valid_username_and_password() {
         logger.info("Entering valid credentials");
         try {
-            loginPage.enterUsername(VALID_USERNAME)
-                    .enterPassword(VALID_PASSWORD);
+            loginPage.enterUsername(validUsername)
+                    .enterPassword(validPassword);
             logger.info("Valid credentials entered successfully");
         } catch (Exception e) {
             logger.error("Failed to enter valid credentials", e);
@@ -70,7 +83,7 @@ public class UIStepDefinitions {
     public void i_login_using_stored_encrypted_credentials() {
         logger.info("Logging in using stored encrypted credentials");
         try {
-            loginPage.storeCredentialsSecurely(VALID_USERNAME, VALID_PASSWORD);
+            loginPage.storeCredentialsSecurely(validUsername, validPassword);
             LoginPage result = loginPage.loginWithStoredCredentials();
             Assert.assertNotNull(result, "Login with stored credentials should succeed");
             logger.info("Successfully logged in using stored encrypted credentials");
@@ -100,7 +113,7 @@ public class UIStepDefinitions {
         logger.info("Entering invalid username: {}", invalidUsername);
         try {
             loginPage.enterUsername(invalidUsername)
-                    .enterPassword(VALID_PASSWORD);
+                    .enterPassword(validPassword);
             logger.info("Invalid username and valid password entered");
         } catch (Exception e) {
             logger.error("Failed to enter invalid credentials", e);
@@ -113,7 +126,7 @@ public class UIStepDefinitions {
     public void i_enter_valid_username_and_invalid_password(String invalidPassword) {
         logger.info("Entering valid username and invalid password");
         try {
-            loginPage.enterUsername(VALID_USERNAME)
+            loginPage.enterUsername(validUsername)
                     .enterPassword(invalidPassword);
             logger.info("Valid username and invalid password entered");
         } catch (Exception e) {

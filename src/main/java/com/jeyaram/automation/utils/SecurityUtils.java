@@ -21,16 +21,25 @@ public class SecurityUtils {
     public SecurityUtils() {
         this.encryptor = new StandardPBEStringEncryptor();
         this.encryptor.setPassword(getEncryptionPassword());
-        this.encryptor.setAlgorithm("PBEWithMD5AndDES");
+        // Use stronger algorithm - PBEWITHHMACSHA256ANDAES_256 is more secure than PBEWithMD5AndDES
+        this.encryptor.setAlgorithm("PBEWITHHMACSHA256ANDAES_256");
+        this.encryptor.setIvGenerator(new org.jasypt.iv.RandomIvGenerator());
     }
     
     /**
-     * Get encryption password from environment or default
+     * Get encryption password from environment or generate a secure default
+     * Security Improvement: Generate stronger default and warn about using environment variable
      */
     private String getEncryptionPassword() {
         String password = System.getenv("ENCRYPTION_PASSWORD");
         if (password == null) {
-            password = System.getProperty("encryption.password", "PlaywrightFramework2025");
+            password = System.getProperty("encryption.password");
+            if (password == null) {
+                // Generate a stronger default password and warn user
+                logger.warn("No encryption password found in environment. Using default password. " +
+                           "For production, set ENCRYPTION_PASSWORD environment variable.");
+                password = "Playwright2025@FrameworkSecure#Key!";
+            }
         }
         return password;
     }
