@@ -1,8 +1,0 @@
-com\jeyaram\automation\runners\CucumberTestRunner.class
-com\jeyaram\automation\runners\CucumberTestNGRunner.class
-com\jeyaram\automation\stepdefs\PerformanceStepDefinitions.class
-com\jeyaram\automation\listeners\TestNGListener.class
-com\jeyaram\automation\stepdefs\APIStepDefinitions.class
-com\jeyaram\automation\stepdefs\MobileStepDefinitions.class
-com\jeyaram\automation\stepdefs\UIStepDefinitions.class
-com\jeyaram\automation\runners\TestNGBaseTest.class
